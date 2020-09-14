@@ -15,9 +15,11 @@ struct Chofer{
     bool propietarioDelAuto;
     bool estado;
 };
+
 /// PROTOTYPE
-Chofer agregarChofer();
 void menuChoferes();
+Chofer agregarChofer();
+void mostrarChofer();
 /// END PROTOTYPE
 
 

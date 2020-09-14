@@ -23,7 +23,7 @@ void menuChoferes(){
 
         switch(opt){
             case 1:
-                agregarChofer();
+                //nuevoChofer();
                 break;
             case 2:
                 break;
@@ -38,11 +38,50 @@ void menuChoferes(){
 }
 
 Chofer agregarChofer(){
-    struct Chofer reg;
+    Chofer reg;
+
     cout << "------- AGREGAR CHOFER ------- " << endl;
     cout << " INGRESE NRO DE D.N.I:  ";
     cin >> reg.dni;
+    cout << " INGRESE APELLIDO: ";
+    cin >> reg.apellido;
+    cout << " INGRESE NOMBRE: ";
+    cin >> reg.nombre;
+    cout << "-------INGRESE FECHA DE INGRESO-------- " << endl;
+    cout << "DIA: ";
+    cin >> reg.fechaIngreso.dia;
+    cout << "MES: ";
+    cin >> reg.fechaIngreso.mes;
+    cout << "ANIO: ";
+    cin >> reg.fechaIngreso.anio;
+    cout << "INGRESE C.U.I.T: ";
+    cin >> reg.cuit;
+    cout << " TIPO DE REGISTRO: ";
+    cin >> reg.tipoDeRegistro;
+    cout << " -------INGRESE FECHA DE VENCIMIENTO DEL REGISTRO--------  " <<endl;
+    cout << "DIA: ";
+    cin >> reg.fechaDeVencimiento.dia;
+    cout << "MES: ";
+    cin >> reg.fechaDeVencimiento.mes;
+    cout << "ANIO: ";
+    cin >> reg.fechaDeVencimiento.anio;
+    cout << "INGRESE NRO DE TELEFONO: ";
+    cin >> reg.telefono;
 
     return reg;
+}
+
+void mostrarChofer(Chofer reg){
+    cout << " NRO DE D.N.I:  " << reg.dni << endl;
+    cout << " APELLIDO: "<< reg.apellido << endl;
+    cout << " NOMBRE: "<< reg.nombre << endl;
+    cout << "------- FECHA DE INGRESO-------- " << endl;
+    cout << reg.fechaIngreso.dia << " / " << reg.fechaIngreso.mes << " / " << reg.fechaIngreso.anio <<endl;
+    cout << " C.U.I.T: " << reg.cuit <<endl;
+    cout << " TIPO DE REGISTRO: " << reg.tipoDeRegistro << endl;
+    cout << " ------- FECHA DE VENCIMIENTO DEL REGISTRO--------  " << endl;
+    cout << reg.fechaDeVencimiento.dia << " / " << reg.fechaDeVencimiento.mes << " / " << reg.fechaDeVencimiento.anio <<endl;
+    cout << "INGRESE NRO DE TELEFONO: ";
+    cin >> reg.telefono;
 }
 
