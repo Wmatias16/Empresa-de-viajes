@@ -6,7 +6,7 @@ using namespace std;
 
 void menuChoferes(){
     int opt;
-    while(true){
+    do{
         system("cls");
         cout << "MENU CHOFERES" <<endl;
         cout << "----------------------"<<endl<<endl;
@@ -31,10 +31,8 @@ void menuChoferes(){
                 break;
             case 4:
                 break;
-            case 0:
-                break;
         }
-    }
+    }while(opt != 0);
 }
 
 Chofer agregarChofer(){

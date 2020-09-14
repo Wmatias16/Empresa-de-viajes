@@ -11,7 +11,7 @@ using namespace std;
 int main()
 {
     int opt;
-    while(true){
+    do{
         system("cls");
         cout << "MENU PRINCIPAL" <<endl;
         cout << "----------------------"<<endl<<endl;
@@ -35,9 +35,8 @@ int main()
                 break;
             case 4:
                 break;
-            case 0:
-                break;
         }
-    }
+    }while(opt != 0);
+
     return 0;
 }
