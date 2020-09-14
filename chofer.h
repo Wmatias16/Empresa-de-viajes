@@ -20,6 +20,8 @@ struct Chofer{
 void menuChoferes();
 Chofer agregarChofer();
 void mostrarChofer();
+void altaChofer();
+bool crearChofer(struct Chofer);
 /// END PROTOTYPE
 
 

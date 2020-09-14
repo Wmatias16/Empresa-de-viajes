@@ -1,5 +1,6 @@
 #include <iostream>
 #include <cstdlib>
+#include <cstdio>
 
 #include "chofer.h"
 using namespace std;
@@ -23,7 +24,7 @@ void menuChoferes(){
 
         switch(opt){
             case 1:
-                //nuevoChofer();
+                altaChofer();
                 break;
             case 2:
                 break;
@@ -34,10 +35,47 @@ void menuChoferes(){
         }
     }while(opt != 0);
 }
+/// ABML
+void altaChofer(){
+    Chofer reg;
+    reg = agregarChofer();
+
+    if(crearChofer(reg)){
+        cout << " GUARDADO CORRECTAMENTE!!"<<endl;
+        system("pause");
+    }
+}
+
+bool crearChofer(Chofer reg){
+    FILE *fchofer;
+    bool guardo;
+    fchofer = fopen("choferes.dat","ab");
+
+    if(fchofer == NULL){
+        cout << "ERROR AL GUARDAR REGISTRO" <<endl;
+        system("pause");
+        return false;
+    }
+    guardo = fwrite(&reg,sizeof(Chofer),1,fchofer);
+
+    if(guardo == false){
+        cout << "NO SE PUDO GUARDAR EL REGISTRO!!"<<endl;
+        return guardo;
+    }
+
+    fclose(fchofer);
+
+    return guardo;
+}
+
+
+
+
+/// END ABML
 
 Chofer agregarChofer(){
     Chofer reg;
-
+    system("pause");
     cout << "------- AGREGAR CHOFER ------- " << endl;
     cout << " INGRESE NRO DE D.N.I:  ";
     cin >> reg.dni;
@@ -68,7 +106,6 @@ Chofer agregarChofer(){
 
     return reg;
 }
-
 void mostrarChofer(Chofer reg){
     cout << " NRO DE D.N.I:  " << reg.dni << endl;
     cout << " APELLIDO: "<< reg.apellido << endl;
@@ -82,4 +119,6 @@ void mostrarChofer(Chofer reg){
     cout << "INGRESE NRO DE TELEFONO: ";
     cin >> reg.telefono;
 }
+
+
 
