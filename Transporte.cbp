@@ -32,7 +32,10 @@
 			<Add option="-Wall" />
 			<Add option="-fexceptions" />
 		</Compiler>
+		<Unit filename="chofer.cpp" />
+		<Unit filename="chofer.h" />
 		<Unit filename="main.cpp" />
+		<Unit filename="utilidades.h" />
 		<Extensions>
 			<code_completion />
 			<envvars />

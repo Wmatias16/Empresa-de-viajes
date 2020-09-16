@@ -19,9 +19,14 @@ struct Chofer{
 /// PROTOTYPE
 void menuChoferes();
 Chofer agregarChofer();
-void mostrarChofer();
+Chofer leerChofer(int);
+void mostrarChofer(struct Chofer);
+void listarChoferes();
 void altaChofer();
-bool crearChofer(struct Chofer);
+void bajaChofer();
+void listarUnchofer();
+int siExiste(char *);
+bool crearChofer(struct Chofer,int);
 /// END PROTOTYPE
 
 

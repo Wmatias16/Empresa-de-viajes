@@ -4,5 +4,4 @@
 struct Fecha{
     int dia,mes,anio;
 };
-
 #endif // UTILIDADES_H_INCLUDED
