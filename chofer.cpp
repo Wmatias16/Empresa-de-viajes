@@ -1,21 +1,77 @@
 #include <iostream>
 #include <ctime>
-#include <cstdio>
 #include <cstdlib>
+#include <cstdio>
 #include <cstring>
 
 #include "Chofer.h"
 using namespace std;
 
+
 void cargarCadena(char* pal, int tam) {
 	int i;
 	fflush(stdin);
 	for (i = 0; i < tam; i++) {
-		pal[i] = std::cin.get();
+		pal[i] = cin.get();
 		if (pal[i] == '\n') break;
 	}
 	pal[i] = '\0';
 	fflush(stdin);
+}
+
+bool verificarFecha(Fecha reg) {
+	int anio, mes, dia, diasFechaSistema, diasFechaIngresado,diferencia;
+	bool state;
+	time_t t = time(0);
+	tm* now = localtime(&t);
+
+	anio = now->tm_year + 1900;
+	mes = now->tm_mon + 1;
+	dia = now->tm_mday;
+
+	diasFechaSistema = (anio * 365) + (mes - 1) * 30 + dia;
+	diasFechaIngresado = (reg.anio * 365) + (reg.mes - 1) * 30 + reg.dia;
+
+	diferencia = diasFechaSistema - diasFechaIngresado;
+
+	state = (diferencia >= 0) ? true : false;
+
+	return state;
+}
+Fecha cargarFechas(const char *titulo, bool opc) {
+	Fecha reg;
+
+	bool state = !(opc);
+	do {
+		system("cls");
+
+		cout << titulo << endl;
+		reg = cargarFecha();
+
+		if (opc) {
+			if (verificarFecha(reg)!=true) {//SI ES TRUE DIO MENOR SI ES FALSE ES MAYOR
+				cout << "ERROR AL INGRESAR DATOS DE LA FECHA" << endl<<endl;
+				cout << "DEBE INGRESAR UNA FECHA MENOR A LA FECHA ACTUAL!!" << endl;
+				system("pause");
+			}
+			else {
+				state = true;
+			}
+		}
+		else {
+			if (verificarFecha(reg)!=false) {//SI ES TRUE DIO MENOR SI ES FALSE ES MAYOR
+				cout << "ERROR AL INGRESAR DATOS DE LA FECHA" << endl << endl;
+				cout << "DEBE INGRESAR UNA FECHA MAYOR A LA FECHA ACTUAL!!" << endl;
+				system("pause");
+			}
+			else {
+				state = false;
+			}
+		}
+
+	} while (state == !(opc));
+    system("cls");
+	return reg;
 }
 
 
@@ -63,7 +119,7 @@ void altaChofer() {
 	reg = agregarChofer();
 
 
-	pos = siExiste(reg.dni,reg.cuit);
+	pos = siExiste(reg.dni, reg.cuit);
 
 	if (pos < 0) {
 		if (crearChofer(reg)) {
@@ -116,12 +172,10 @@ void modificacionChofer() {
 	if (pos >= 0) {
 
 		reg = leerChofer(pos);
-		cout << "CHOFER ENCONTRADO: " << reg.apellido << " " << reg.nombre <<endl;
-
-		reg.fechaDeVencimiento = cargarFecha();
+		reg.fechaDeVencimiento = cargarFechas("INGRESE NUEVA FECHA DE VENCIMIENTO",false);
 
 		if (crearChofer(reg, pos)) {
-			cout << "FECHA MODIFICADA CORRECTAMENTE!!!"<<endl;
+			cout << "FECHA MODIFICADA CORRECTAMENTE!!!" << endl;
 			system("pause");
 		}
 		else {
@@ -334,12 +388,13 @@ int cantidadDeChoferes(Chofer reg) {
 	return cantReg;
 }
 
-void verificarCadena(const char* reg, char *v, int tam) {
+void verificarCadena(const char* reg, char* v, int tam) {
 
-	bool state;
+	bool state = false;
 
-	do {
-		cout << "------- AGREGAR CHOFER ------- " << endl<<endl;
+
+	while (state == false) {
+		cout << "------- AGREGAR CHOFER ------- " << endl << endl;
 		cout << reg;
 
 		cargarCadena(v, tam);
@@ -354,12 +409,11 @@ void verificarCadena(const char* reg, char *v, int tam) {
 			state = false;
 		}
 
-	} while (state == false);
+	}
 
 }
 Chofer agregarChofer() {
 	Chofer reg;
-
 
 	verificarCadena("INGRESE NRO DE D.N.I:", reg.dni, 10);
 
@@ -367,25 +421,20 @@ Chofer agregarChofer() {
 
 	verificarCadena("INGRESE NOMBRE:", reg.nombre, 50);
 
-	cout << "-------INGRESE FECHA DE INGRESO-------- " << endl;
-	reg.fechaIngreso = cargarFecha();
+	reg.fechaIngreso = cargarFechas("------ - INGRESE FECHA DE INGRESO-------- ", true);
 
 	verificarCadena("INGRESE C.U.I.T: ", reg.cuit, 20);
 
 	cout << " TIPO DE REGISTRO: ";
 	cin >> reg.tipoDeRegistro;
 
-	cout << " -------INGRESE FECHA DE VENCIMIENTO DEL REGISTRO--------  " << endl;
-	reg.fechaDeVencimiento = cargarFecha();
+	reg.fechaDeVencimiento = cargarFechas(" -------INGRESE FECHA DE VENCIMIENTO DEL REGISTRO--------", false);
 
 	verificarCadena("INGRESE NRO DE TELEFONO:", reg.telefono, 15);
 	reg.estado = true;
 
 	return reg;
 }
-
-
-
 void mostrarChofer(Chofer reg) {
 
 	if (reg.estado == true) {
@@ -402,7 +451,6 @@ void mostrarChofer(Chofer reg) {
 		cout << "INGRESE NRO DE TELEFONO: " << reg.telefono << endl;
 		cout << "ESTADOOO: " << reg.estado << endl;
 		cout << endl;
-
 	}
 
 }
