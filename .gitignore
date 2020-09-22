@@ -2,3 +2,4 @@ bin/
 obj/
 choferes.dat
 bin/Debug/Transporte.exe
+Transporte.depend
