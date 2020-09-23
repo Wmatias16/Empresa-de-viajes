@@ -1,11 +1,13 @@
 #include <iostream>
+#include <ctime>
 #include <cstdlib>
 #include <cstdio>
 #include <cstring>
 
 using namespace std;
-
+#include "utilidades.h"
 #include "chofer.h"
+#include "viaje.h"
 
 int main()
 {
@@ -28,7 +30,7 @@ int main()
 		case 1:
 			menuChoferes();
 			break;
-		case 2:
+		case 2:menuViajes();
 			break;
 		case 3:
 			break;

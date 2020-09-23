@@ -2,8 +2,20 @@
 #define UTILIDADES_H_INCLUDED
 
 struct Fecha{
-    int dia,mes,anio;
+	int dia;
+	int mes;
+	int anio;
 };
+
+void verificarCadena(const char*, char*, int);
+struct Fecha cargarFecha();
+void cargarCadena(char*, int);
+bool verificarFecha(struct Fecha);
+struct Fecha cargarFechas(const char*, bool);
+int cargarEnteros(const char*);
+int pedirDni();
+int siExiste(char*);
+int siExiste(char*, char*);
 
 
 

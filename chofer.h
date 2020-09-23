@@ -1,5 +1,3 @@
-#include  "utilidades.h"
-
 struct Chofer {
 	char dni[10];
 	char apellido[50];
@@ -19,15 +17,11 @@ void modificacionChofer();
 void bajaChofer();
 void listarUnchofer();
 void listarChoferes();
-Fecha cargarFecha();
+
 void menuChoferes();
 Chofer agregarChofer();
 Chofer leerChofer(int);
-int pedirDni();
 void mostrarChofer(struct Chofer);
 bool crearChofer(struct Chofer);
 bool crearChofer(struct Chofer, int);
 int cantidadDeChoferes(Chofer);
-int siExiste(char*);
-int siExiste(char*, char*);
-void verificarCadena(const char* , char*, int);
