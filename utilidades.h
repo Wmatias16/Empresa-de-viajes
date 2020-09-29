@@ -11,11 +11,11 @@ void verificarCadena(const char*, char*, int);
 struct Fecha cargarFecha();
 void cargarCadena(char*, int);
 bool verificarFecha(struct Fecha);
-struct Fecha cargarFechas(const char*, bool);
-int cargarEnteros(const char*);
+void cargarFechas(const char*, Fecha *,bool);
+void cargarEnteros(const char*,int*, int, int );
+void cargarFlotantes(const char* msj, float*, int);
+
 int pedirDni();
-int siExiste(char*);
-int siExiste(char*, char*);
 
 
 

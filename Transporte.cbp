@@ -32,10 +32,17 @@
 			<Add option="-Wall" />
 			<Add option="-fexceptions" />
 		</Compiler>
+		<Unit filename="backup.cpp" />
+		<Unit filename="backup.h" />
 		<Unit filename="chofer.cpp" />
 		<Unit filename="chofer.h" />
 		<Unit filename="main.cpp" />
+		<Unit filename="menu.cpp" />
+		<Unit filename="menu.h" />
+		<Unit filename="utilidades.cpp" />
 		<Unit filename="utilidades.h" />
+		<Unit filename="viaje.cpp" />
+		<Unit filename="viaje.h" />
 		<Extensions>
 			<code_completion />
 			<envvars />

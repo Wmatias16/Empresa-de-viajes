@@ -1,3 +1,4 @@
+
 struct Chofer {
 	char dni[10];
 	char apellido[50];
@@ -12,16 +13,18 @@ struct Chofer {
 };
 
 /// PROTOTYPE
-void altaChofer();
-void modificacionChofer();
-void bajaChofer();
+void nuevoChofer();
+void modificarFechaChofer();
+void eliminarChofer();
 void listarUnchofer();
 void listarChoferes();
 
-void menuChoferes();
 Chofer agregarChofer();
-Chofer leerChofer(int);
-void mostrarChofer(struct Chofer);
-bool crearChofer(struct Chofer);
-bool crearChofer(struct Chofer, int);
-int cantidadDeChoferes(Chofer);
+bool modificarChofer(Chofer, int);
+bool leerChofer(int,Chofer *);
+void mostrarChofer(Chofer);
+bool crearChofer(Chofer);
+int cantidadDeChoferes();
+int siExiste(char*);
+int siExiste(char*, char*);
+int pedirDni();

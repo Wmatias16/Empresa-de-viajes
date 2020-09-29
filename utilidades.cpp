@@ -1,70 +1,13 @@
 #include <iostream>
+#include <stdlib.h>
+#include <stdio.h>
+#include <string.h>
 #include <ctime>
-#include <cstdlib>
-#include <cstdio>
-#include <cstring>
 
 using namespace std;
 
 #include "utilidades.h"
-#include "chofer.h"
 
-
-int pedirDni() {
-	char dni[10];
-	system("cls");
-	cout << "INGRESE EL D.N.I DEL CHOFER: ";
-	cin >> dni;
-	return siExiste(dni);
-}
-
-
-
-int siExiste(char* dni) {
-	FILE* fchofer;
-	Chofer reg;
-	int pos = 0;
-
-	fchofer = fopen("choferes.dat", "rb");
-
-	if (fchofer == NULL) {
-		return -2;
-	}
-
-	while (fread(&reg, sizeof(Chofer), 1, fchofer) == 1) {
-		if (strcmp(reg.dni, dni) == 0) {
-			fclose(fchofer);
-			return pos;
-		}
-		pos++;
-	}
-	fclose(fchofer);
-
-	return -1;
-}
-
-int siExiste(char* dni, char* cuit) {
-	FILE* fchofer;
-	Chofer reg;
-	int pos = 0;
-
-	fchofer = fopen("choferes.dat", "rb");
-
-	if (fchofer == NULL) {
-		return -2;
-	}
-
-	while (fread(&reg, sizeof(Chofer), 1, fchofer) == 1) {
-		if (strcmp(reg.dni, dni) == 0 || strcmp(reg.cuit, cuit) == 0) {
-			fclose(fchofer);
-			return pos;
-		}
-		pos++;
-	}
-	fclose(fchofer);
-
-	return -1;
-}
 struct Fecha cargarFecha() {
 	struct Fecha fecha;
 
@@ -78,22 +21,45 @@ struct Fecha cargarFecha() {
 	return fecha;
 }
 
-
-int cargarEnteros(const char* msj) {
-	int dato;
-	cout << msj;
-	cin >> dato;
-	system("cls");
-	return dato;
+void cargarEnteros(const char* msj, int *dato,int inicio,int fin) {
+	bool estado = true;
+	do {
+		system("cls");
+		cout << msj;
+		cin >> *dato;
+		if (fin == -1 && *dato >= inicio) {
+			estado = false;
+		}else if (*dato >= inicio && *dato <= fin) {
+			estado = false;
+		}else {
+			cout << "ERROR" << endl;
+			system("pause");
+		}
+		system("cls");
+	} while (estado != false);
 }
-
+void cargarFlotantes(const char* msj, float* dato, int inicio) {
+	bool estado = true;
+	do {
+		system("cls");
+		cout << msj;
+		cin >> *dato;
+		if (*dato >= inicio) {
+			estado = false;
+		}else {
+			cout << "ERROR" << endl;
+			system("pause");
+		}
+		system("cls");
+	} while (estado != false);
+}
 
 void cargarCadena(char* pal, int tam) {
 	int i;
 	fflush(stdin);
 	for (i = 0; i < tam; i++) {
 		pal[i] = cin.get();
-		if (pal[i] == '\n') break;
+ 		if (pal[i] == '\n') break;
 	}
 	pal[i] = '\0';
 	fflush(stdin);
@@ -118,18 +84,17 @@ bool verificarFecha(struct Fecha reg) {
 
 	return state;
 }
-struct Fecha cargarFechas(const char* titulo, bool opc) {
-	struct Fecha reg;
+ void cargarFechas(const char* titulo,Fecha *reg, bool opc) {
 
 	bool state = !(opc);
 	do {
 		system("cls");
 
 		cout << titulo << endl;
-		reg = cargarFecha();
+		*reg = cargarFecha();
 
 		if (opc) {
-			if (verificarFecha(reg) != true) {//SI ES TRUE DIO MENOR SI ES FALSE ES MAYOR
+			if (verificarFecha(*reg) != true) {//SI ES TRUE DIO MENOR SI ES FALSE ES MAYOR
 				cout << "ERROR AL INGRESAR DATOS DE LA FECHA" << endl << endl;
 				cout << "DEBE INGRESAR UNA FECHA MENOR A LA FECHA ACTUAL!!" << endl;
 				system("pause");
@@ -139,7 +104,7 @@ struct Fecha cargarFechas(const char* titulo, bool opc) {
 			}
 		}
 		else {
-			if (verificarFecha(reg) != false) {//SI ES TRUE DIO MENOR SI ES FALSE ES MAYOR
+			if (verificarFecha(*reg) != false) {//SI ES TRUE DIO MENOR SI ES FALSE ES MAYOR
 				cout << "ERROR AL INGRESAR DATOS DE LA FECHA" << endl << endl;
 				cout << "DEBE INGRESAR UNA FECHA MAYOR A LA FECHA ACTUAL!!" << endl;
 				system("pause");
@@ -151,7 +116,6 @@ struct Fecha cargarFechas(const char* titulo, bool opc) {
 
 	} while (state == !(opc));
 	system("cls");
-	return reg;
 }
 
 void verificarCadena(const char* reg, char* v, int tam) {
@@ -167,7 +131,7 @@ void verificarCadena(const char* reg, char* v, int tam) {
 			state = true;
 		}
 		else {
-			system("cls");      //USAR RLUTIL
+			system("cls");
 			cout << "CAMPO INCOMPLETO!!" << endl;
 			state = false;
 		}

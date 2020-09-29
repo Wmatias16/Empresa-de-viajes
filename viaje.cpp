@@ -1,61 +1,23 @@
 #include <iostream>
-#include <ctime>
-#include <cstdlib>
-#include <cstdio>
-#include <cstring>
+#include <stdlib.h>
+#include <stdio.h>
+
+const char* ARCHIVO_VIAJES = "viajes.dat";
 
 #include "utilidades.h"
+#include "Chofer.h"
 #include "viaje.h"
 
 using namespace std;
 
-
-const char* ARCHIVO_VIAJES = "viajes.dat";
-
-void menuViajes() {
-	int opt;
-	do {
-		system("cls");
-		cout << "MENU VIAJES" << endl;
-		cout << "----------------------" << endl << endl;
-		cout << "1) NUEVO VIAJE" << endl;
-		cout << "2) LISTAR VIJAE POR ID VIAJE" << endl;
-		cout << "3) LISTAR TODOS LOS VIAJES" << endl;
-		cout << "4) ELIMINAR VIAJE" << endl;
-		cout << "----------------------" << endl << endl;
-		cout << "0) VOLVER AL MENU PRINCIPAL" << endl;
-
-		cout << "OPCION: ";
-		cin >> opt;
-
-		switch (opt) {
-		case 1:nuevoViaje();
-			break;
-		case 2:listarUnViaje();
-			break;
-		case 3:listarViajes();
-			break;
-		case 4:bajaViaje();
-			break;
-		}
-	} while (opt != 0);
-}
-
-
-
-
-////////////////////////ABML///////////////////////////////////
 void nuevoViaje() {
-	int pos;
 	Viaje reg = cargarViaje();
-	int cant = cantidadDeViajes(reg);
-	cant++;
 
-	reg.idViaje = cant;
+	int pos = siExiste(reg.dniChofer);
 
-	pos = siExiste(reg.dniChofer);
+	if (pos >= 0) {
+		reg.idViaje = cantidadDeViajes() + 1;
 
-	if (pos > 0) {
 		if (crearViaje(reg)) {
 			cout << "VIAJE CREADO CORRECTAMENTE!!" << endl;
 			system("pause");
@@ -68,96 +30,67 @@ void nuevoViaje() {
 }
 
 void listarUnViaje() {
-	FILE* fviaje;
-	Viaje reg;
 
 	int pos = pedirID();
 
-	fviaje = fopen(ARCHIVO_VIAJES, "rb");
-
-	if (fviaje == NULL) {
-		cout << "ERROR AL ABRIR EL ARCHIVO" << endl;
-		system("pause");
-		return;
-	}
-
 	if (pos >= 0) {
-
-		fseek(fviaje, pos * sizeof(Viaje), 0);
-		fread(&reg, sizeof(reg), 1, fviaje);
+		Viaje reg;
+		leerViaje(pos, &reg);
 		mostrarViaje(reg);
-
-		fclose(fviaje);
 	}
 	else {
 		cout << "NO EXISTE EL ID INGRESADO" << endl;
 		system("pause");
 		return;
 	}
-
-	fclose(fviaje);
 	system("pause");
 }
 
 void listarViajes() {
-	FILE* fviaje;
-	Viaje reg;
 	system("cls");
-	fviaje = fopen(ARCHIVO_VIAJES, "rb");
 
-	if (fviaje == NULL) {
-		cout << "ERROR AL ABRIR EL ARCHIVO" << endl;
+	int cantViajes = cantidadDeViajes();
+
+	if (cantViajes != -1) {
+		Viaje reg;
+
+		for (int i = 0; i < cantViajes; i++) {
+			leerViaje(i, &reg);
+			mostrarViaje(reg);
+			cout << endl;
+		}
 		system("pause");
-		return;
 	}
+	else {
+		cout << "ERROR: NO EXISTE NINGUN VIAJE EN EL SISTEMA" << endl;
+		system("pause");
 
-	while (fread(&reg, sizeof(Viaje), 1, fviaje) == 1) {
-		mostrarViaje(reg);
-		cout << endl;
 	}
-
-	system("pause");
-	fclose(fviaje);
 }
 
-
-
-
 void bajaViaje() {
-	Viaje reg;
-	int pos;
-	pos = pedirID();
+	int pos = pedirID();
 
 	if (pos >= 0) {
-
-		reg = leerViaje(pos);
+		Viaje reg;
+		leerViaje(pos,&reg);
 
 		reg.estado = false;
 
-		if (crearViaje(reg, pos)) {
-			cout << "BAJA LOGICA HECHO CORRECTAMENTE!!!";
+		if (modificarViaje(reg, pos)) {
+			cout << "BAJA LOGICA HECHO CORRECTAMENTE!!!" << endl;
 			system("pause");
 		}
 		else {
-			cout << "ERROR EN HACER LA BAJA LOGICA!!!";
+			cout << "ERROR EN HACER LA BAJA LOGICA!!!" << endl;
 			system("pause");
 		}
 	}
 	else {
-		cout << "NO EXISTE EL D.N.I INGRESADO" << endl;
+		cout << "NO EXISTE EL ID INGRESADO" << endl;
 		system("pause");
-		return;
 	}
 }
-
-
-
-
-
-
-////////////////////////ABML///////////////////////////////////
-
-
 
 int pedirID() {
 	int id;
@@ -167,13 +100,10 @@ int pedirID() {
 	return siExisteID(id);
 }
 
-
 int siExisteID(int id) {
-	FILE* fviaje;
+	FILE* fviaje = fopen(ARCHIVO_VIAJES, "rb");
 	Viaje reg;
 	int pos = 0;
-
-	fviaje = fopen(ARCHIVO_VIAJES, "rb");
 
 	if (fviaje == NULL) {
 		return -2;
@@ -187,114 +117,66 @@ int siExisteID(int id) {
 		pos++;
 	}
 	fclose(fviaje);
-
 	return -1;
 }
 
+bool leerViaje(int pos,Viaje *reg) {
+	bool leyo = false;
+	FILE* fviaje = fopen(ARCHIVO_VIAJES, "rb");
 
-Viaje leerViaje(int pos) {
-	FILE* fviaje;
-	Viaje reg;
-
-	fviaje = fopen(ARCHIVO_VIAJES, "rb");
-
-	if (fviaje == NULL) {
-		cout << "ERROR AL GUARDAR REGISTRO" << endl;
-	}
+	if (fviaje == NULL)return leyo;
 
 	fseek(fviaje, pos * sizeof(Viaje), SEEK_SET);
 
-	fread(&reg, sizeof(Viaje), 1, fviaje);
+	leyo = fread(reg, sizeof(Viaje), 1, fviaje);
 
 	fclose(fviaje);
-
-	return reg;
+	return leyo;
 }
 
 bool crearViaje(Viaje reg) {
-	FILE* fviaje;
-	bool guardo;
-	fviaje = fopen(ARCHIVO_VIAJES, "ab");
+	FILE* fviaje = fopen(ARCHIVO_VIAJES, "ab");
+	bool guardo = false;
 
 	if (fviaje == NULL) {
 		cout << "ERROR AL ABRIR REGISTRO" << endl;
 		system("pause");
-		return false;
+		return guardo;
 	}
 	guardo = fwrite(&reg, sizeof(Viaje), 1, fviaje);
 
 	fclose(fviaje);
-
 	return guardo;
 }
 
-bool crearViaje(Viaje reg, int pos) {
-	FILE* fviaje;
-	bool guardo;
-	fviaje = fopen(ARCHIVO_VIAJES, "rb+");
+bool modificarViaje(Viaje reg, int pos) {
+	bool guardo = false;
+	FILE* fviaje = fopen(ARCHIVO_VIAJES, "rb+");
 
 	if (fviaje == NULL) {
-		return false;
+		return guardo;
 	}
-
 	fseek(fviaje, pos * sizeof(Viaje), SEEK_SET);
 
 	guardo = fwrite(&reg, sizeof(Viaje), 1, fviaje);
 
 	fclose(fviaje);
-
 	return guardo;
 }
 
-
-int cantidadDeViajes(Viaje reg) {
-	FILE* fviaje;
-
-	fviaje = fopen(ARCHIVO_VIAJES, "rb");
+int cantidadDeViajes() {
+	FILE* fviaje = fopen(ARCHIVO_VIAJES, "rb");
 
 	if (fviaje == NULL) {
 		return 0;
 	}
+
 	fseek(fviaje, 0, SEEK_END);
 
 	int cantReg = ftell(fviaje) / sizeof(Viaje);
 
 	fclose(fviaje);
 	return cantReg;
-}
-
-
-
-void  mostrarUnviaje() {
-	FILE* fviaje;
-	Viaje reg;
-
-	int pos = pedirID();
-
-	fviaje= fopen(ARCHIVO_VIAJES, "rb");
-
-	if (fviaje == NULL) {
-		cout << "ERROR AL ABRIR EL ARCHIVO" << endl;
-		system("pause");
-		return;
-	}
-
-	if (pos >= 0) {
-
-		fseek(fviaje, pos * sizeof(Viaje), 0);
-		fread(&reg, sizeof(reg), 1, fviaje);
-		mostrarViaje(reg);
-
-		fclose(fviaje);
-	}
-	else {
-		cout << "NO EXISTE EL ID INGRESADO" << endl;
-		system("pause");
-		return;
-	}
-
-	fclose(fviaje);
-	system("pause");
 }
 
 void mostrarViaje(Viaje reg) {
@@ -309,23 +191,19 @@ void mostrarViaje(Viaje reg) {
 		cout << "IMPORTE: " << reg.importe << endl;
 		cout << "PATENTE: " << reg.patente << endl;
 		cout << "CALIFICACION: "<< reg.calificacion << endl;
-		cout << "ESTADO: " << reg.estado << endl;
-
 	}
 }
-
-
 Viaje cargarViaje() {
 	Viaje reg;
 
 	verificarCadena("INGRESE DNI DEL CHOFER: ", reg.dniChofer, 10);
-	reg.idCliente = cargarEnteros("INGRESE ID CLIENTE: ");
-	reg.fechaDeViaje = cargarFechas("INGRESE FECHA DEL VIAJE: ", true);
-	reg.horaDeSalida = cargarEnteros("INGRESE LA HORA DE SALIDA: ");
-	reg.kilometraje = cargarEnteros("INGRESE EL KILOMETRAJE: ");
-	reg.importe = cargarEnteros("INGRESE EL IMPORTE: ");
-	reg.calificacion = cargarEnteros("INGRESE LA CALIFICACION: ");
+	cargarEnteros("INGRESE ID CLIENTE: ",&reg.idCliente,0,-1);
+	cargarFechas("INGRESE FECHA DEL VIAJE: ", &reg.fechaDeViaje , true);
+	cargarEnteros("INGRESE LA HORA DE SALIDA: ",&reg.horaDeSalida,0,23);
+	cargarFlotantes("INGRESE EL KILOMETRAJE: ",&reg.kilometraje,0);
+	cargarFlotantes("INGRESE EL IMPORTE: ",&reg.importe,0);
 	verificarCadena("INGRESE NRO DE PATENTE: ", reg.patente, 10);
+	cargarEnteros("INGRESE LA CALIFICACION: ",&reg.calificacion,1,5);
 	reg.estado = true;
 
 	return reg;
