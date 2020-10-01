@@ -143,6 +143,7 @@ bool leerChoferBKP(int pos, Chofer* reg) {
 	return leyo;
 }
 
+
 void cargarDatosInicio() {
 	int opt;
 	do {
@@ -162,8 +163,7 @@ void cargarDatosInicio() {
 			break;
 		case 2:cargarDatosInicioViaje();
 			break;
-		case 3: restuararDatosViaje();
-				restuararDatosChofer();
+		case 3: restuararDatosViaje();restuararDatosChofer();
 		default:
 			break;
 		}
@@ -172,13 +172,10 @@ void cargarDatosInicio() {
 
 void cargarDatosInicioViaje() {
     system("cls");
-	Viaje reg;
-	cin >> reg.idViaje;
-	reg = cargarViaje();
-
-
 	FILE* pviaje = fopen("viajes.ini", "a");
 	if (pviaje == NULL) return;
+    Viaje reg;
+	reg = cargarViaje();
 
 	if (fwrite(&reg, sizeof(reg), 1, pviaje)) {
 		cout << "REGISTRO GUARDADO!!" << endl;
@@ -190,18 +187,20 @@ void cargarDatosInicioViaje() {
 
 void restuararDatosViaje() {
 	Viaje reg;
-	FILE* pviajeIni = fopen("viajes.ini", "r");
+	FILE* pviajeIni = fopen("viajes.ini", "rb");
 	FILE* pviaje = fopen("viajes.dat", "wb");
 	if (pviajeIni == NULL || pviaje == NULL) return;
 
-	while (fread(&reg, sizeof(reg), 1, pviajeIni)) {
-		fwrite(&reg, sizeof(reg), 1, pviaje);
+	while (fread(&reg, sizeof(Viaje), 1, pviajeIni) == 1) {
+		fwrite(&reg, sizeof(Viaje), 1, pviaje);
 	}
+	fclose(pviajeIni);
+    fclose(pviaje);
+
 	cout << "REGISTROS GUARDADOS!" << endl;
 	system("pause");
 
-	fclose(pviaje);
-	fclose(pviajeIni);
+
 }
 void cargarDatosInicioChofer() {
     system("cls");
@@ -223,8 +222,8 @@ void restuararDatosChofer() {
 	FILE* pchofer = fopen("choferes.dat", "wb");
 	if (pchofer == NULL || pchoferIni == NULL) return;
 
-	while (fread(&reg, sizeof(reg), 1, pchoferIni)) {
-		fwrite(&reg, sizeof(reg), 1, pchofer);
+	while (fread(&reg, sizeof(Chofer), 1, pchoferIni)) {
+		fwrite(&reg, sizeof(Chofer), 1, pchofer);
 	}
 	cout << "REGISTROS GUARDADOS!"<<endl;
 	system("pause");

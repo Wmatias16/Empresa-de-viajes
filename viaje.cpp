@@ -11,6 +11,7 @@ const char* ARCHIVO_VIAJES = "viajes.dat";
 using namespace std;
 
 void nuevoViaje() {
+    system("cls");
 	Viaje reg = cargarViaje();
 
 	int pos = siExiste(reg.dniChofer);
@@ -57,15 +58,15 @@ void listarViajes() {
 		for (int i = 0; i < cantViajes; i++) {
 			leerViaje(i, &reg);
 			mostrarViaje(reg);
-			cout << endl;
 		}
-		system("pause");
 	}
 	else {
 		cout << "ERROR: NO EXISTE NINGUN VIAJE EN EL SISTEMA" << endl;
 		system("pause");
 
 	}
+    system("pause");
+
 }
 
 void bajaViaje() {
@@ -191,6 +192,7 @@ void mostrarViaje(Viaje reg) {
 		cout << "IMPORTE: " << reg.importe << endl;
 		cout << "PATENTE: " << reg.patente << endl;
 		cout << "CALIFICACION: "<< reg.calificacion << endl;
+		cout << "-----------------"<<endl;
 	}
 }
 Viaje cargarViaje() {
@@ -203,7 +205,7 @@ Viaje cargarViaje() {
 	cargarFlotantes("INGRESE EL KILOMETRAJE: ",&reg.kilometraje,0);
 	cargarFlotantes("INGRESE EL IMPORTE: ",&reg.importe,0);
 	verificarCadena("INGRESE NRO DE PATENTE: ", reg.patente, 10);
-	cargarEnteros("INGRESE LA CALIFICACION: ",&reg.calificacion,1,5);
+	cargarEnteros("INGRESE LA CALIFICACION: ",&reg.calificacion,0,5);
 	reg.estado = true;
 
 	return reg;

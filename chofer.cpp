@@ -100,7 +100,7 @@ void listarChoferes() {
 	if (cantChofer != -1) {
 		Chofer reg;
 
-		for (int i = 0; i < cantChofer; i++) {
+		for (int i = 0; i <= cantChofer; i++) {
 			leerChofer(i, &reg);
 			mostrarChofer(reg);
 		}
