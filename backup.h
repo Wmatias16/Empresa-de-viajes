@@ -14,5 +14,11 @@ int cantidadDeChoferesBkp();
 bool leerChoferBKP(int, Chofer*);
 bool leerViajeBKP(int, Viaje*);
 
+void cargarDatosInicio();
+void cargarDatosInicioViaje();
+void cargarDatosInicioChofer();
+void restuararDatosChofer();
+void restuararDatosViaje();
+
 
 #endif // BACKUP_H_INCLUDED

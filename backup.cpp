@@ -142,3 +142,96 @@ bool leerChoferBKP(int pos, Chofer* reg) {
 	fclose(fchoferbkp);
 	return leyo;
 }
+
+void cargarDatosInicio() {
+	int opt;
+	do {
+		system("cls");
+
+		cout << "---MENU CARGAR DATOS INICIO---" << endl;
+		cout << "1.CARGAR DATOS CHOFER" << endl;
+		cout << "2.CARGAR DATOS VIAJES" << endl;
+		cout << "3.RECUPERAR DATOS" << endl;
+		cout << "0.SALIR" << endl;
+		cout << "-----------------------" << endl;
+		cout << "OPCION: ";
+		cin >> opt;
+
+		switch (opt){
+		case 1:cargarDatosInicioChofer();
+			break;
+		case 2:cargarDatosInicioViaje();
+			break;
+		case 3: restuararDatosViaje();
+				restuararDatosChofer();
+		default:
+			break;
+		}
+	} while (opt != 0);
+}
+
+void cargarDatosInicioViaje() {
+    system("cls");
+	Viaje reg;
+	cin >> reg.idViaje;
+	reg = cargarViaje();
+
+
+	FILE* pviaje = fopen("viajes.ini", "a");
+	if (pviaje == NULL) return;
+
+	if (fwrite(&reg, sizeof(reg), 1, pviaje)) {
+		cout << "REGISTRO GUARDADO!!" << endl;
+		system("pause");
+	}
+
+	fclose(pviaje);
+}
+
+void restuararDatosViaje() {
+	Viaje reg;
+	FILE* pviajeIni = fopen("viajes.ini", "r");
+	FILE* pviaje = fopen("viajes.dat", "wb");
+	if (pviajeIni == NULL || pviaje == NULL) return;
+
+	while (fread(&reg, sizeof(reg), 1, pviajeIni)) {
+		fwrite(&reg, sizeof(reg), 1, pviaje);
+	}
+	cout << "REGISTROS GUARDADOS!" << endl;
+	system("pause");
+
+	fclose(pviaje);
+	fclose(pviajeIni);
+}
+void cargarDatosInicioChofer() {
+    system("cls");
+	Chofer reg = agregarChofer();
+	FILE* pchofer = fopen("choferes.ini", "a");
+	if (pchofer == NULL) return;
+
+	if (fwrite(&reg, sizeof(reg), 1, pchofer)) {
+		cout << "REGISTRO GUARDADO!!"<<endl;
+		system("pause");
+	}
+
+	fclose(pchofer);
+}
+
+void restuararDatosChofer() {
+	Chofer reg;
+	FILE* pchoferIni = fopen("choferes.ini", "r");
+	FILE* pchofer = fopen("choferes.dat", "wb");
+	if (pchofer == NULL || pchoferIni == NULL) return;
+
+	while (fread(&reg, sizeof(reg), 1, pchoferIni)) {
+		fwrite(&reg, sizeof(reg), 1, pchofer);
+	}
+	cout << "REGISTROS GUARDADOS!"<<endl;
+	system("pause");
+
+	fclose(pchofer);
+	fclose(pchoferIni);
+}
+
+
+

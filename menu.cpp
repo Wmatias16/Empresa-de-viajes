@@ -9,6 +9,7 @@ using namespace std;
 #include "backup.h"
 #include "menu.h"
 
+
 void menuPrincipal() {
 	int opt;
 	do {
@@ -33,6 +34,10 @@ void menuPrincipal() {
 		case 3:menuReportes();
 			break;
 		case 4:menuBackup();
+			break;
+		case 0:cout << "SALIENDO.."<< endl; system("pause");
+			break;
+		default: cout << "ERROR! \t NO EXISTE LA OPCION INGRESADA" << endl; system("pause");
 			break;
 		}
 	} while (opt != 0);
@@ -65,6 +70,10 @@ void menuChoferes() {
 				break;
 			case 5:eliminarChofer();
 				break;
+			case 0:cout << "SALIENDO.." << endl; system("pause");
+				break;
+			default: cout << "ERROR! \t NO EXISTE LA OPCION INGRESADA" << endl; system("pause");
+				break;
 		}
 	} while (opt != 0);
 }
@@ -75,7 +84,7 @@ void menuViajes() {
 		cout << "MENU VIAJES" << endl;
 		cout << "----------------------" << endl << endl;
 		cout << "1) NUEVO VIAJE" << endl;
-		cout << "2) LISTAR VIJAE POR ID VIAJE" << endl;
+		cout << "2) LISTAR VIAJE POR ID" << endl;
 		cout << "3) LISTAR TODOS LOS VIAJES" << endl;
 		cout << "4) ELIMINAR VIAJE" << endl;
 		cout << "----------------------" << endl << endl;
@@ -92,6 +101,10 @@ void menuViajes() {
 		case 3:listarViajes();
 			break;
 		case 4:bajaViaje();
+			break;
+		case 0:cout << "SALIENDO.." << endl; system("pause");
+			break;
+		default: cout << "ERROR! \t NO EXISTE LA OPCION INGRESADA" << endl; system("pause");
 			break;
 		}
 	} while (opt != 0);
@@ -116,9 +129,11 @@ void menuBackup() {
 			break;
 		case 2:restaurar();
 			break;
-		case 3:
+		case 3:cargarDatosInicio();
 			break;
-		case 4:
+		case 0:cout << "SALIENDO.." << endl; system("pause");
+			break;
+		default: cout << "ERROR! \t NO EXISTE LA OPCION INGRESADA" << endl; system("pause");
 			break;
 		}
 	} while (opt != 0);
@@ -144,7 +159,9 @@ void menuReportes() {
 			break;
 		case 3:
 			break;
-		case 4:
+		case 0:cout << "SALIENDO.." << endl; system("pause");
+			break;
+		default: cout << "ERROR! \t NO EXISTE LA OPCION INGRESADA" << endl; system("pause");
 			break;
 		}
 	} while (opt != 0);
