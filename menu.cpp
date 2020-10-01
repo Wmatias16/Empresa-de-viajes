@@ -7,6 +7,7 @@ using namespace std;
 #include "viaje.h"
 #include "Chofer.h"
 #include "backup.h"
+#include "reportes.h"
 #include "menu.h"
 
 
@@ -146,6 +147,7 @@ void menuReportes() {
 		cout << "----------------------" << endl << endl;
 		cout << "1) PUNTO A" << endl;
 		cout << "2) PUNTO B" << endl;
+		cout << "3) PUNTO C" << endl;
 		cout << "----------------------" << endl << endl;
 		cout << "0) VOLVER AL MENU PRINCIPAL" << endl;
 
@@ -153,11 +155,11 @@ void menuReportes() {
 		cin >> opt;
 
 		switch (opt) {
-		case 1:
+		case 1:puntoA();
 			break;
-		case 2:
+		case 2:puntoB();
 			break;
-		case 3:
+		case 3:puntoC();
 			break;
 		case 0:cout << "SALIENDO.." << endl; system("pause");
 			break;

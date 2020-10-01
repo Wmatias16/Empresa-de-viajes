@@ -39,6 +39,8 @@
 		<Unit filename="main.cpp" />
 		<Unit filename="menu.cpp" />
 		<Unit filename="menu.h" />
+		<Unit filename="reportes.cpp" />
+		<Unit filename="reportes.h" />
 		<Unit filename="utilidades.cpp" />
 		<Unit filename="utilidades.h" />
 		<Unit filename="viaje.cpp" />
