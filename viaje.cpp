@@ -25,7 +25,7 @@ void nuevoViaje() {
 		}
 	}
 	else {
-		cout << "ERROR: EL DNI DEL CHOFER NO EXISTE!!" << endl;
+		cout << "ERROR: NO SE PUDO CREAR EL VIAJE" << endl;
 		system("pause");
 	}
 }

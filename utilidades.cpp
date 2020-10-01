@@ -32,7 +32,7 @@ void cargarEnteros(const char* msj, int *dato,int inicio,int fin) {
 		}else if (*dato >= inicio && *dato <= fin) {
 			estado = false;
 		}else {
-			cout << "ERROR" << endl;
+			cout << "ERROR: INGRESE CORRECTAMENTE LOS DATOS" << endl;
 			system("pause");
 		}
 		system("cls");
@@ -132,7 +132,9 @@ void verificarCadena(const char* reg, char* v, int tam) {
 		}
 		else {
 			system("cls");
-			cout << "CAMPO INCOMPLETO!!" << endl;
+			cout << "ERROR:CAMPO INCOMPLETO!! \t NO DEBE DEJAR LOS CAMPOS VACIOS " << endl;
+			system("pause");
+			system("cls");
 			state = false;
 		}
 	}

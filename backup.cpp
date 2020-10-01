@@ -11,14 +11,29 @@ using namespace std;
 
 void backup() {
 	system("cls");
-	backupChofer();
-	backupViaje();
-	system("pause");
+	int opt;
+	cout << "DESEA HACER UN BACKUP DE LOS ARCHIVOS?"<<endl;
+	cout << "1.PARA CONFIRMAR \t 2.PARA CANCELAR"<<endl;
+	cout << "---------------------------"<<endl;
+	cout << "OPCION: ";
+	cin >> opt;
+    if(opt == 1){
+        backupChofer();system("pause");
+        backupViaje();system("pause");
+	}
 }
 void restaurar() {
-	restaurarChofer();
-	restaurarViaje();
-	system("pause");
+    system("cls");
+	int opt;
+	cout << "DESEA RESTAURAR BACKUP DE LOS ARCHIVOS?"<<endl;
+	cout << "1.PARA CONFIRMAR \t 2.PARA CANCELAR"<<endl;
+	cout << "---------------------------"<<endl;
+	cout << "OPCION: ";
+	cin >> opt;
+	if(opt == 1){
+        restaurarChofer();system("pause");
+        restaurarViaje();system("pause");
+	}
 }
 
 void backupChofer() {
@@ -68,7 +83,7 @@ void restaurarChofer() {
 		}
 
 	}
-	cout << "RESTUARADO CORRECTAMENTE"<<endl;
+	cout << "CHOFER RESTUARADO CORRECTAMENTE"<<endl;
 
 	fclose(pchofer);
 }
@@ -80,10 +95,10 @@ void restaurarViaje() {
 	if (pviaje == NULL) return;
 
 	for (int i = 0; i < cantViajes; i++) {
-		leerViaje(i, &reg);
+		leerViajeBKP(i, &reg);
 		fwrite(&reg, sizeof(Viaje), 1, pviaje);
 	}
-
+    cout << "VIAJE RESTUARADO CORRECTAMENTE"<<endl;
 	fclose(pviaje);
 }
 
@@ -163,7 +178,18 @@ void cargarDatosInicio() {
 			break;
 		case 2:cargarDatosInicioViaje();
 			break;
-		case 3: restuararDatosViaje();restuararDatosChofer();
+		case 3:
+		    system("cls");
+            int aux;
+            cout << "DESEA CARGAR LOS DATOS DE INICIO?"<<endl;
+            cout << "1.PARA CONFIRMAR \t 2.PARA CANCELAR"<<endl;
+            cout << "---------------------------"<<endl;
+            cout << "OPCION: ";
+            cin >> aux;
+		    if(aux == 1){
+                restuararDatosViaje();
+                restuararDatosChofer();
+		    }
 		default:
 			break;
 		}

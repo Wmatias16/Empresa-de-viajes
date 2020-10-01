@@ -39,10 +39,10 @@ void eliminarChofer() {
 		reg.estado = false;
 
 		if (modificarChofer(reg, pos)) {
-			cout << "BAJA LOGICA HECHO CORRECTAMENTE!!!";
+			cout << "BAJA LOGICA HECHO CORRECTAMENTE!!!" << endl;
 			system("pause");
 		}else {
-			cout << "ERROR EN HACER LA BAJA LOGICA!!!";
+			cout << "ERROR EN HACER LA BAJA LOGICA!!!"<<endl;
 			system("pause");
 		}
 
@@ -97,10 +97,11 @@ void listarChoferes() {
 	system("cls");
 
 	int cantChofer = cantidadDeChoferes();
+
 	if (cantChofer != -1) {
 		Chofer reg;
 
-		for (int i = 0; i <= cantChofer; i++) {
+		for (int i = 0; i < cantChofer; i++) {
 			leerChofer(i, &reg);
 			mostrarChofer(reg);
 		}
@@ -108,6 +109,7 @@ void listarChoferes() {
 	}
 	else {
 		cout << "ERROR: NO EXISTE NINGUN CHOFER EN EL SISTEMA"<< endl;
+		system("pause");
 	}
 }
 
@@ -161,7 +163,7 @@ int siExiste(char* dni) {
 	if (fchofer == NULL) return -1;
 
 	while (fread(&reg, sizeof(Chofer), 1, fchofer) == 1) {
-		if (strcmp(reg.dni, dni) == 0) {
+		if (strcmp(reg.dni, dni) == 0 && reg.estado == true) {
 			fclose(fchofer);
 			return pos;
 		}
@@ -223,7 +225,7 @@ Chofer agregarChofer() {
 	cargarEnteros("TIPO DE REGISTRO: ", &reg.tipoDeRegistro, 1, 3);
 	cargarFechas(" -------INGRESE FECHA DE VENCIMIENTO DEL REGISTRO--------", &reg.fechaDeVencimiento, false);
 	verificarCadena("INGRESE NRO DE TELEFONO:", reg.telefono, 15);
-	cargarEnteros("0.SOY PROPIETARIO\t 1. NO SOY PROPIETARIO\n PROPIETARIO: ", &opt, 0, 1);
+	cargarEnteros("0.SOY PROPIETARIO\t 1. NO SOY PROPIETARIO \n ----------------------------\nPROPIETARIO: ", &opt, 0, 1);
 	reg.propietarioDelAuto = opt;
 	reg.estado = true;
 	return reg;
